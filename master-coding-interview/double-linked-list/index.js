@@ -121,11 +121,52 @@ class DoublyLinkedList {
         this.length++;
         return true;
     }
+
+    reverse() {
+        // if (this.head == null) return null;
+
+        // let currentNode = this.head;
+        // this.tail = currentNode;
+
+        // while (currentNode !== null) {
+        //     let prev = currentNode.prev;
+        //     currentNode.prev = currentNode.next;
+        //     currentNode.next = prev;
+
+        //     if (currentNode.prev) {
+        //         currentNode = currentNode.prev;
+        //     } else {
+        //         this.head = currentNode;
+        //         break;
+        //     }
+        // }
+
+        // return this;
+
+
+        let currentNode = this.head;
+        this.tail = currentNode;
+
+        while (currentNode !== null) {
+            let prev = currentNode.prev;
+            currentNode.prev = currentNode.next;
+            currentNode.next = prev;
+
+            if (currentNode.prev) {
+                currentNode = currentNode.prev;
+            } else {
+                this.head = currentNode;
+                break;
+            }
+        }
+
+        return this;
+    }
 }
 
 var list = new DoublyLinkedList()
 list.push("Harry")
 list.push("Ron")
 list.push("Hermione");
-
+list.reverse();
 console.log(list);
