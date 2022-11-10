@@ -30,18 +30,94 @@ class Graph {
 
         delete this.adjacencyList[vertex];
     }
+
+    depthFirstRecursive(start: any) {
+        const result: string[] = [];
+        const visited: any = {};
+        const adjacencyList = this.adjacencyList;
+
+        (function dfs(vertex: any) {
+            if (!vertex) return null;
+            visited[vertex] = true;
+            result.push(vertex);
+
+            adjacencyList[vertex].forEach((neighbor: any) => {
+                if (!visited[neighbor]) {
+                    return dfs(neighbor);
+                }
+            });
+        })(start);
+
+        return result;
+    }
+
+    depthFirstIterative(start: any) {
+        const stack = [start];
+        const result: string[] = [];
+        const visited: any = {};
+        let currentVertex: any;
+
+        visited[start] = true;
+        while(stack.length) {
+            currentVertex = stack.pop();
+            result.push(currentVertex);
+
+            this.adjacencyList[currentVertex].forEach((neighbor: any) => {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    stack.push(neighbor);
+                }
+            });
+        }
+
+        return result;
+    }
+
+    breadFirst(start: any) {
+        const queue = [start];
+        const result: string[] = [];
+        const visited: any = {};
+        let currentVertex: any;
+
+        visited[start] = true;
+        while(queue.length) {
+            currentVertex = queue.shift();
+            result.push(currentVertex);
+
+            this.adjacencyList[currentVertex].forEach((neighbor: any) => {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.push(neighbor);
+                }
+            });
+        }
+
+        return result;
+    }
 }
 
 let g = new Graph();
-g.addVertex("Dallas");
-g.addVertex("Tokyo");
-g.addVertex("Aspen");
-g.addVertex("Los Angeles");
-g.addVertex("Hong Kong")
-g.addEdge("Dallas", "Tokyo");
-g.addEdge("Dallas", "Aspen");
-g.addEdge("Hong Kong", "Tokyo");
-g.addEdge("Hong Kong", "Dallas");
-g.addEdge("Los Angeles", "Hong Kong");
-g.addEdge("Los Angeles", "Aspen");
-g.removeVertex("Hong Kong");
+g.addVertex("A")
+g.addVertex("B")
+g.addVertex("C")
+g.addVertex("D")
+g.addVertex("E")
+g.addVertex("F")
+
+
+g.addEdge("A", "B")
+g.addEdge("A", "C")
+g.addEdge("B","D")
+g.addEdge("C","E")
+g.addEdge("D","E")
+g.addEdge("D","F")
+g.addEdge("E","F")
+
+const depthFirstRecursive = g.depthFirstRecursive("A");
+const depthFirstIterative = g.depthFirstIterative("A");
+const breadFirst = g.breadFirst("A");
+console.log({
+    depthFirstRecursive,
+    depthFirstIterative,
+    breadFirst
+});
